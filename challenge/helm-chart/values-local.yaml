@@ -1,0 +1,16 @@
+appName: crewmeister
+replicaCount: 1
+
+image:
+  repository: ghcr.io/richie001/crewmeister-challenge
+  tag: latest
+
+containerPort: 8080
+
+database:
+  username: crewuser
+  password: crewpass
+  url: jdbc:mysql://db:3306/challenge
+
+ingressHost: crewmeister.local
+servicePort: 80

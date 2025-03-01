@@ -1,0 +1,11 @@
+# Ignore Maven build directories
+target/
+*.jar
+
+# Ignore IDE files
+.idea/
+*.iml
+.vscode/
+
+# Ignore local environment files
+.env

@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: grafana-dashboard-config
+  labels:
+    grafana_dashboard: "true"
+data:
+  crewmeister-dashboard.json: |
+    {
+      "dashboard": {
+        "title": "Crewmeister Monitoring",
+        "panels": [
+          {
+            "title": "CPU Usage",
+            "type": "graph",
+            "targets": [
+              {
+                "expr": "rate(container_cpu_usage_seconds_total{image!=\"\"}[5m])",
+                "format": "time_series"
+              }
+            ]
+          }
+        ]
+      }
+    }

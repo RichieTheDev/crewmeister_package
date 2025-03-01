@@ -1,0 +1,15 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: crewmeister-monitor
+spec:
+  selector:
+    matchLabels:
+      app: crewmeister
+  endpoints:
+    - port: http
+      path: /actuator/prometheus
+annotations:
+  prometheus.io/scrape: "true"
+  prometheus.io/path: "/actuator/prometheus"
+  prometheus.io/port: "8080"
