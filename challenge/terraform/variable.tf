@@ -3,8 +3,9 @@ variable "replica_count" {
 }
 
 variable "image" {
-  default = "richie001/crewmeister-challenge:latest"
+  default = "docker.io/richie001/crewmeister-challenge:latest"
 }
+
 
 variable "environment" {
   default = "local"
