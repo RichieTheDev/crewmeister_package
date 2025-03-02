@@ -2,14 +2,14 @@ appName: crewmeister
 replicaCount: 2
 
 image:
-  repository: docker.io/richie001/crewmeister-challenge
+  repository: docker.io/${DOCKER_USERNAME}/crewmeister-challenge
   tag: latest
 
 containerPort: 8080
 
 database:
-  username: '{{ .Values.dbUser | default "root" }}'
-  password: '{{ .Values.dbPassword | default "root" }}'
+  username: "root"
+  password: "root"
   url: jdbc:mysql://mysql-service:3306/challenge
 
 ingressHost: crewmeister.local

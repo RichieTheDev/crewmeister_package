@@ -16,7 +16,7 @@ provider "helm" {
 
 resource "helm_release" "crewmeister" {
   name      = "crewmeister"
-  chart     = "./challenge/helm-chart/chart.yaml"
+  chart     = "./challenge/helm-chart"
   namespace = "default"
 
   set {
@@ -26,11 +26,6 @@ resource "helm_release" "crewmeister" {
 
   set {
     name  = "image.repository"
-    value = split(":", var.image)[0]
-  }
-
-  set {
-    name  = "image.tag"
-    value = try(split(":", var.image)[1], "latest")
+    value = var.image
   }
 }

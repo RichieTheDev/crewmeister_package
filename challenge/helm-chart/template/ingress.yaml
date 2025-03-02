@@ -7,7 +7,7 @@ metadata:
     cert-manager.io/cluster-issuer: "letsencrypt-prod"
 spec:
   rules:
-    - host: {{ .Values.ingressHost | default "crewmeister.local" }}
+    - host: {{ .Values.ingressHost }}
       http:
         paths:
           - path: /
@@ -16,4 +16,4 @@ spec:
               service:
                 name: {{ .Values.appName }}-service
                 port:
-                  number: {{ .Values.servicePort | default 80 }}
+                  number: {{ .Values.servicePort }}
