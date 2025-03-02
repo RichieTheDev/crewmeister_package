@@ -8,8 +8,8 @@ image:
 containerPort: 8080
 
 database:
-  username: admin
-  password: ${DB_PASSWORD}
+  username: "{{ .Values.dbUser | b64enc }}"
+  password: "{{ .Values.dbPassword | b64enc }}"
   url: jdbc:mysql://mysql-service:3306/challenge
 
 ingressHost: crewmeister.cloud

@@ -8,32 +8,29 @@ provider "kubernetes" {
   config_path = "~/.kube/config"
 }
 
-resource "kubernetes_ingress_v1" "crewmeister" {
-  metadata {
-    name = "crewmeister-ingress"
-    annotations = {
-      "kubernetes.io/ingress.class"    = "nginx"
-      "cert-manager.io/cluster-issuer" = "letsencrypt-prod"
-    }
+provider "helm" {
+  kubernetes {
+    config_path = "~/.kube/config"
+  }
+}
+
+resource "helm_release" "crewmeister" {
+  name      = "crewmeister"
+  chart     = "./helm-chart"
+  namespace = "default"
+
+  set {
+    name  = "replicaCount"
+    value = var.replica_count
   }
 
-  spec {
-    rule {
-      host = "crewmeister.${var.environment}.com"
-      http {
-        path {
-          path      = "/"
-          path_type = "Prefix"
-          backend {
-            service {
-              name = "crewmeister-service"
-              port {
-                number = 80
-              }
-            }
-          }
-        }
-      }
-    }
+  set {
+    name  = "image.repository"
+    value = split(":", var.image)[0]
+  }
+
+  set {
+    name  = "image.tag"
+    value = split(":", var.image)[1]
   }
 }

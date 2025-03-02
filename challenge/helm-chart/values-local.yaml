@@ -8,8 +8,8 @@ image:
 containerPort: 8080
 
 database:
-  username: crewuser
-  password: crewpass
+  username: root
+  password: root
   url: jdbc:mysql://db:3306/challenge
 
 ingressHost: crewmeister.local

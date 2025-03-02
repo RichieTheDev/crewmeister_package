@@ -20,6 +20,11 @@ jobs:
           distribution: "temurin"
           java-version: "17"
 
+      - name: Setup Monitoring
+        run: |
+          helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+          helm install prometheus prometheus-community/kube-prometheus-stack
+
       - name: Run Tests
         run: mvn test
 
