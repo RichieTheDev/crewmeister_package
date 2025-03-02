@@ -1,3 +1,4 @@
+
 terraform {
   backend "local" {
     path = "./terraform.tfstate"
@@ -31,6 +32,6 @@ resource "helm_release" "crewmeister" {
 
   set {
     name  = "image.tag"
-    value = split(":", var.image)[1]
+    value = try(split(":", var.image)[1], "latest")
   }
 }

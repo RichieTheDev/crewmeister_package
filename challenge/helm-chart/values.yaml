@@ -1,5 +1,5 @@
 appName: crewmeister
-replicaCount: 3
+replicaCount: 2
 
 image:
   repository: docker.io/richie001/crewmeister-challenge
@@ -8,9 +8,9 @@ image:
 containerPort: 8080
 
 database:
-  username: "{{ .Values.dbUser | b64enc }}"
-  password: "{{ .Values.dbPassword | b64enc }}"
+  username: "{{ .Values.dbUser | default "root" | b64enc }}"
+  password: "{{ .Values.dbPassword | default "root" | b64enc }}"
   url: jdbc:mysql://mysql-service:3306/challenge
 
-ingressHost: crewmeister.cloud
+ingressHost: crewmeister.local
 servicePort: 80
