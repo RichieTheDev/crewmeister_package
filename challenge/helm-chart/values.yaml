@@ -2,7 +2,7 @@ appName: crewmeister
 replicaCount: 2
 
 image:
-  repository: docker.io/${DOCKER_USERNAME}/crewmeister-challenge
+  repository: docker.io/richie001/crewmeister-challenge
   tag: latest
 
 containerPort: 8080

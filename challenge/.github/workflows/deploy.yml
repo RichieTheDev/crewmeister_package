@@ -54,7 +54,19 @@ jobs:
         run: terraform plan -out=tfplan
 
       - name: Apply Terraform
-        run: terraform apply -auto-approve tfplan
+        run: terraform apply -auto-approve
+
+      - name: Install Helm
+        run: |
+          curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
+          helm version
+
+      - name: Deploy Helm Chart
+        run: |
+          helm upgrade --install crewmeister ./challenge/helm-chart \
+            --namespace crewmeister \
+            --set image.repository=docker.io/${{ secrets.DOCKER_USERNAME }}/crewmeister-challenge \
+            --set image.tag=latest
 
       - name: Setup Monitoring
         run: |

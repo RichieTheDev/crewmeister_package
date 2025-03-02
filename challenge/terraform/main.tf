@@ -14,10 +14,16 @@ provider "helm" {
   }
 }
 
+resource "kubernetes_namespace" "crewmeister" {
+  metadata {
+    name = "crewmeister"
+  }
+}
+
 resource "helm_release" "crewmeister" {
   name      = "crewmeister"
   chart     = "./challenge/helm-chart"
-  namespace = "default"
+  namespace = kubernetes_namespace.crewmeister.metadata[0].name
 
   set {
     name  = "replicaCount"
@@ -26,6 +32,11 @@ resource "helm_release" "crewmeister" {
 
   set {
     name  = "image.repository"
-    value = var.image
+    value = split(":", var.image)[0]
+  }
+
+  set {
+    name  = "image.tag"
+    value = split(":", var.image)[1]
   }
 }
