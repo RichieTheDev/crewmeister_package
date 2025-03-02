@@ -1,4 +1,3 @@
-
 terraform {
   backend "local" {
     path = "./terraform.tfstate"
@@ -17,7 +16,7 @@ provider "helm" {
 
 resource "helm_release" "crewmeister" {
   name      = "crewmeister"
-  chart     = "./helm-chart"
+  chart     = "./challenge/helm-chart/chart.yaml"
   namespace = "default"
 
   set {
