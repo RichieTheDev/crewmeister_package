@@ -10,7 +10,13 @@ containerPort: 8080
 database:
   username: "root"
   password: "root"
-  url: jdbc:mysql://mysql-service:3306/challenge
+  url: jdbc:mysql://crewmeister-mysql:3306/challenge
 
 ingressHost: crewmeister.local
 servicePort: 80
+
+mysql:
+  enabled: true
+  auth:
+    rootPassword: "root"
+    database: "challenge"
