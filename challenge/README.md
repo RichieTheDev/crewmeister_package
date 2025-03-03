@@ -14,6 +14,9 @@ This repository contains a fully automated CI/CD pipeline to deploy the Crewmeis
 - [🏗️ Infrastructure with Terraform](#️-infrastructure-with-terraform)
 - [📜 Helm Chart](#-helm-chart)
 - [📊 Monitoring & Auto-Scaling](#-monitoring--auto-scaling)
+- [🔄 Deploy Updates](#-deploy-updates)
+- [🎯 Useful Commands](#-useful-commands)
+- [📌 Conclusion](#-conclusion)
 
 ---
 
@@ -42,25 +45,35 @@ Before deploying, ensure you have the following installed:
 
 ## 🚀 Deployment Steps
 
-### 1️⃣ Clone the repository
+### 1️⃣ Clone the Repository
 
-````sh
+Clone the repository to your local machine:
+
+```sh
 git clone https://github.com/RichieTheDev/crewmeister_package.git
+cd crewmeister_package
+```
 
+### 2️⃣ Set Up Your Kubernetes Cluster
 
-# Kubernetes Deployment with GitHub Actions, Terraform & Helm
+#### For Local Development (Minikube)
 
-## 2️⃣ Set up Kubernetes Cluster (if not already done)
-If you don't have a Kubernetes cluster, you can use Minikube:
+Start Minikube:
 
 ```sh
 minikube start
 kubectl config use-context minikube
-````
+```
 
-Or create a managed Kubernetes cluster (e.g., AWS EKS, Google GKE, Azure AKS).
+#### For Cloud Kubernetes Providers (AWS EKS, GKE, AKS)
 
-## 3️⃣ Configure Secrets in GitHub
+Ensure your `KUBECONFIG` is set up:
+
+```sh
+kubectl config current-context
+```
+
+### 3️⃣ Configure Secrets in GitHub
 
 Go to **Settings** → **Secrets and variables** → **Actions** in your repository and add:
 
@@ -72,7 +85,24 @@ Go to **Settings** → **Secrets and variables** → **Actions** in your reposit
 | TF_VAR_dbUser     | Database username              |
 | TF_VAR_dbPassword | Database password              |
 
-## 4️⃣ Deploy Using GitHub Actions
+### 4️⃣ Build & Push the Docker Image
+
+Build the Docker image:
+
+```sh
+docker build -t docker.io/YOUR_DOCKER_USERNAME/crewmeister-challenge:latest .
+```
+
+Push the image to Docker Hub:
+
+```sh
+docker login
+docker push docker.io/YOUR_DOCKER_USERNAME/crewmeister-challenge:latest
+```
+
+**Note**: Replace `YOUR_DOCKER_USERNAME` with your actual Docker Hub username.
+
+### 5️⃣ Deploy Using GitHub Actions
 
 Push to the main branch to trigger deployment:
 
@@ -86,6 +116,8 @@ GitHub Actions will:
 - Build & push Docker image
 - Deploy to Kubernetes using Terraform & Helm
 
+---
+
 ## 📜 GitHub Actions Workflow
 
 Located in `.github/workflows/deploy.yml`, this workflow automates:
@@ -94,6 +126,8 @@ Located in `.github/workflows/deploy.yml`, this workflow automates:
 - Docker Build & Push
 - Kubernetes Deployment
 - Monitoring Setup
+
+---
 
 ## 🏗️ Infrastructure with Terraform
 
@@ -112,6 +146,8 @@ terraform init
 terraform apply -auto-approve
 ```
 
+---
+
 ## 📜 Helm Chart
 
 Located in `helm-chart/`, it contains:
@@ -127,6 +163,8 @@ Located in `helm-chart/`, it contains:
 helm install crewmeister ./helm-chart
 ```
 
+---
+
 ## 📊 Monitoring & Auto-Scaling
 
 ### Prometheus & Grafana Setup:
@@ -136,6 +174,26 @@ helm repo add prometheus-community https://prometheus-community.github.io/helm-c
 helm repo update
 helm install prometheus prometheus-community/kube-prometheus-stack
 ```
+
+---
+
+## 🔄 Deploy Updates
+
+If you make code changes, follow these steps to redeploy:
+
+1. Rebuild & push the Docker image:
+
+   ```sh
+   docker build -t docker.io/YOUR_DOCKER_USERNAME/crewmeister-challenge:latest .
+   docker push docker.io/YOUR_DOCKER_USERNAME/crewmeister-challenge:latest
+   ```
+
+2. Upgrade the Helm deployment:
+   ```sh
+   helm upgrade --install crewmeister ./helm-chart
+   ```
+
+---
 
 ## 🎯 Useful Commands
 
@@ -168,8 +226,19 @@ kubectl port-forward svc/prometheus-grafana 3000:80
 
 Access Grafana at: [http://localhost:3000](http://localhost:3000)
 
+---
+
 ## 📌 Conclusion
 
 This setup provides a robust, automated pipeline for deploying applications to Kubernetes. 🚀
 
 Feel free to contribute, raise issues, or enhance monitoring! 🎯
+
+```
+
+### Key Notes:
+1. Replace placeholders like `YOUR_DOCKER_USERNAME` with actual values.
+2. Ensure the paths (e.g., `./helm-chart`) match your project structure.
+3. Add a `LICENSE` file if you want to include licensing information.
+4. Update the repository URL (`https://github.com/RichieTheDev/crewmeister_package.git`) with your actual repository URL.
+```

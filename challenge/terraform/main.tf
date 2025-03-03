@@ -20,6 +20,20 @@ resource "kubernetes_namespace" "crewmeister" {
   }
 }
 
+resource "kubernetes_secret" "crewmeister_secrets" {
+  metadata {
+    name      = "crewmeister-secrets"
+    namespace = kubernetes_namespace.crewmeister.metadata[0].name
+  }
+
+  data = {
+    DB_USERNAME = "crew_user"
+    DB_PASSWORD = "securepassword"
+  }
+
+  type = "Opaque"
+}
+
 resource "helm_release" "crewmeister" {
   name      = "crewmeister"
   chart     = "./challenge/helm-chart"

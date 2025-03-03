@@ -54,6 +54,13 @@ jobs:
       - name: Apply Terraform
         run: terraform apply -auto-approve
 
+      - name: Apply Kubernetes Secrets
+        run: |
+          kubectl create secret generic crewmeister-secrets \
+            --from-literal=DB_USERNAME=${{ secrets.DB_USERNAME }} \
+            --from-literal=DB_PASSWORD=${{ secrets.DB_PASSWORD }} \
+            --dry-run=client -o yaml | kubectl apply -f -
+
       - name: Install Helm
         run: |
           curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash

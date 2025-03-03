@@ -1,35 +1,43 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ .Values.appName }}
+  name: { { .Values.appName } }
 spec:
-  replicas: {{ .Values.replicaCount }}
+  replicas: { { .Values.replicaCount } }
   selector:
     matchLabels:
-      app: {{ .Values.appName }}
+      app: { { .Values.appName } }
   template:
     metadata:
       labels:
-        app: {{ .Values.appName }}
+        app: { { .Values.appName } }
     spec:
       containers:
-        - name: {{ .Values.appName }}
+        - name: { { .Values.appName } }
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           ports:
-            - containerPort: {{ .Values.containerPort }}
-          envFrom:
-            - secretRef:
-                name: {{ .Values.appName }}-secrets
+            - containerPort: { { .Values.containerPort } }
+          env:
+            - name: SPRING_DATASOURCE_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: crewmeister-secrets
+                  key: DB_USERNAME
+            - name: SPRING_DATASOURCE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: crewmeister-secrets
+                  key: DB_PASSWORD
           readinessProbe:
             httpGet:
               path: /actuator/health
-              port: {{ .Values.containerPort }}
+              port: { { .Values.containerPort } }
             initialDelaySeconds: 5
             periodSeconds: 10
           livenessProbe:
             httpGet:
               path: /actuator/health
-              port: {{ .Values.containerPort }}
+              port: { { .Values.containerPort } }
             initialDelaySeconds: 10
             periodSeconds: 15
           resources:
