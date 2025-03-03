@@ -100,6 +100,12 @@ docker login
 docker push docker.io/YOUR_DOCKER_USERNAME/crewmeister-challenge:latest
 ```
 
+Run the container:
+
+```sh
+docker run -p 8080:8080 crewmeister-challenge:latest
+```
+
 **Note**: Replace `YOUR_DOCKER_USERNAME` with your actual Docker Hub username.
 
 ### 5️⃣ Deploy Using GitHub Actions
@@ -150,7 +156,7 @@ terraform apply -auto-approve
 
 ## 📜 Helm Chart
 
-Located in `helm-chart/`, it contains:
+Located in `challenge/`, it contains:
 
 - `deployment.yaml`
 - `service.yaml`
@@ -160,7 +166,7 @@ Located in `helm-chart/`, it contains:
 ### Deploy with Helm Manually:
 
 ```sh
-helm install crewmeister ./helm-chart
+helm install crewmeister ./challenge/helmchart
 ```
 
 ---
@@ -190,7 +196,7 @@ If you make code changes, follow these steps to redeploy:
 
 2. Upgrade the Helm deployment:
    ```sh
-   helm upgrade --install crewmeister ./helm-chart
+   helm upgrade --install crewmeister ./challenge/helmchart
    ```
 
 ---
@@ -234,11 +240,12 @@ This setup provides a robust, automated pipeline for deploying applications to K
 
 Feel free to contribute, raise issues, or enhance monitoring! 🎯
 
-```
+---
 
 ### Key Notes:
+
 1. Replace placeholders like `YOUR_DOCKER_USERNAME` with actual values.
-2. Ensure the paths (e.g., `./helm-chart`) match your project structure.
-3. Add a `LICENSE` file if you want to include licensing information.
-4. Update the repository URL (`https://github.com/RichieTheDev/crewmeister_package.git`) with your actual repository URL.
-```
+2. Ensure the paths (e.g., `./challenge`) match your project structure.
+3. Update the repository URL (`https://github.com/RichieTheDev/crewmeister_package.git`) with your actual repository URL.
+
+---
