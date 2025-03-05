@@ -90,6 +90,7 @@ Go to **Settings** → **Secrets and variables** → **Actions** in your reposit
 Build the Docker image:
 
 ```sh
+cd challenge/docker
 docker build -t docker.io/YOUR_DOCKER_USERNAME/crewmeister-challenge:latest .
 ```
 
@@ -246,6 +247,5 @@ Feel free to contribute, raise issues, or enhance monitoring! 🎯
 
 1. Replace placeholders like `YOUR_DOCKER_USERNAME` with actual values.
 2. Ensure the paths (e.g., `./challenge`) match your project structure.
-3. Update the repository URL (`https://github.com/RichieTheDev/crewmeister_package.git`) with your actual repository URL.
 
 ---
